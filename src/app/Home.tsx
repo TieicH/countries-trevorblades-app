@@ -5,7 +5,7 @@ import { Input } from "./components/ui/input";
 import { GET_ALL_CONTINENTS } from "./queries/continents";
 import { GET_ALL_CURRENCIES } from "./queries/currencies";
 import { useEffect, useState } from "react";
-import { Continents, Countries, CountryFilters, Currencies } from "./types";
+import { Continents, Countries, Currencies } from "./types";
 import { parsedContinents, parsedCurrencies } from "./helpers";
 import { useDebounce } from "./hooks";
 import {
@@ -16,6 +16,12 @@ import {
 } from "./helpers/consts";
 import { CountryCard } from "./components/ui/countryCard";
 import { CountrySkeleton } from "./components/ui/countrySkeleton";
+
+export interface CountryFilters {
+  name: string;
+  currency: string;
+  continent: string;
+}
 
 export const Home = () => {
   const [filter, setFilter] = useState<CountryFilters>({

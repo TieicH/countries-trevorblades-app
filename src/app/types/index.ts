@@ -28,9 +28,3 @@ export interface Country {
   }[];
   capital: string;
 }
-
-export interface CountryFilters {
-  name: string;
-  currency: string;
-  continent: string;
-}

@@ -2,7 +2,7 @@ import { Skeleton } from "./skeleton";
 
 export const CountrySkeleton = () => {
   return (
-    <div className="border-2 border-gray-200 rounded-md w-[350px] h-[240px] p-4 cursor-pointer">
+    <div className="border-2 border-gray-200 rounded-md w-[350px] h-[240px] p-4">
       <div className="flex items-start mb-6">
         <Skeleton className="w-[45px] h-[28px] mr-2" />
         <Skeleton className="w-[120px] h-[28px]" />
