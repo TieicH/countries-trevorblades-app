@@ -23,7 +23,7 @@ export interface CountryFilters {
   continent: string;
 }
 
-export const Home = () => {
+export default function Home() {
   const [filter, setFilter] = useState<CountryFilters>({
     continent: "",
     currency: "",
@@ -108,10 +108,15 @@ export const Home = () => {
               })
             : countriesData &&
               countriesData.countries.map((country) => {
-                return <CountryCard country={country}></CountryCard>;
+                return (
+                  <CountryCard
+                    key={country.code}
+                    country={country}
+                  ></CountryCard>
+                );
               })}
         </div>
       </section>
     </main>
   );
-};
+}

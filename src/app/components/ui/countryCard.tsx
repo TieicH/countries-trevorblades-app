@@ -21,6 +21,7 @@ export const CountryCard = ({ country }: CountryProps) => {
 
   return (
     <div
+      role="listitem"
       key={country.code}
       className="border-2 border-gray-600 rounded-md w-[350px] h-[240px] p-4 cursor-pointer"
       onClick={handleClick}

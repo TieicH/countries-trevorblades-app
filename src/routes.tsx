@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import { CountryDetail } from "./app/CountryDetail";
-import { Home } from "./app/Home";
+import Home from "./app/Home";
+import CountryDetail from "./app/CountryDetail";
 
 export default function AppRoutes() {
   return (
