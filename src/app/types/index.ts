@@ -12,18 +12,21 @@ export interface Currencies {
 }
 
 export interface Countries {
-  countries: {
-    code: string;
+  countries: Country[];
+}
+
+export interface Country {
+  code: string;
+  name: string;
+  emoji: string;
+  currencies: string[];
+  continent: {
     name: string;
-    currency: string;
-    continent: {
-      name: string;
-    };
-    languages: {
-      name: string;
-    }[];
-    capital: string;
+  };
+  languages: {
+    name: string;
   }[];
+  capital: string;
 }
 
 export interface CountryFilters {

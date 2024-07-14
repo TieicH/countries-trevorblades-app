@@ -1,4 +1,5 @@
 import { Continents, Currencies } from "../types";
+import { EMPTY_PLACEHOLDER_COUNTRY } from "./consts";
 
 export const parsedContinents = (continentsData: Continents | undefined) => {
   if (!continentsData || !continentsData?.continents?.length) return [];
@@ -17,7 +18,10 @@ export const parsedCurrencies = (currenciesData: Currencies | undefined) => {
   });
   const currencies = Array.from(uniqueCurrencies);
   return currencies.map((currency) => {
-    return { label: currency || "TBD", value: currency || "TBD" };
+    return {
+      label: currency || EMPTY_PLACEHOLDER_COUNTRY,
+      value: currency || EMPTY_PLACEHOLDER_COUNTRY,
+    };
   });
 };
 

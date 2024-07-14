@@ -6,7 +6,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/country" element={<CountryDetail />} />
+      <Route path="/country/:countryCode" element={<CountryDetail />} />
     </Routes>
   );
 }

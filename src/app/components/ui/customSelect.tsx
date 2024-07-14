@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/app/shadcnComponents/ui/select";
+} from "@/app/components/ui/select";
 
 interface CustomSelectProps {
   selectItems: { label: string; value: string }[];
