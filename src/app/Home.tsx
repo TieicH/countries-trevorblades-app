@@ -17,6 +17,7 @@ import {
 } from "./helpers/consts";
 import { CountryCard } from "./components/custom/countryCard";
 import { CountryCardSkeleton } from "./components/custom/countryCardSkeleton";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export interface CountryFilters {
   name: string;
@@ -25,12 +26,15 @@ export interface CountryFilters {
 }
 
 export default function Home() {
-  const [filter, setFilter] = useState<CountryFilters>({
-    continent: "",
-    currency: "",
-    name: "",
-  });
-  const debouncedSearchCountryName = useDebounce(filter.name, 400);
+  const [inputValue, setInputValue] = useState<string>("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const countryName = searchParams.get("name") || "";
+  const countryContinent = searchParams.get("continent") || "";
+  const countryCurrency = searchParams.get("currency") || "";
+
+  const debouncedSearchCountryName = useDebounce(inputValue, 400);
   const [
     getCountries,
     {
@@ -54,14 +58,17 @@ export default function Home() {
   const currencies = parsedCurrencies(currenciesData);
 
   useEffect(() => {
+    searchParams.set("name", debouncedSearchCountryName as string);
     getCountries({
       variables: {
         name: { regex: debouncedSearchCountryName },
-        currency: { regex: filter.currency },
-        continent: { regex: filter.continent },
+        currency: { regex: countryCurrency },
+        continent: { regex: countryContinent },
       },
     });
-  }, [debouncedSearchCountryName, filter, getCountries]);
+    navigate(`/?${searchParams.toString()}`, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countryContinent, countryCurrency, debouncedSearchCountryName, navigate]);
 
   const hasError = Boolean(
     isErrorContinents || isErrorCurrencies || isErrorCountries
@@ -73,51 +80,36 @@ export default function Home() {
         <h1 className="mx-auto text-4xl font-bold w-fit">Countries app</h1>
         <div className="flex items-center justify-center w-full mt-10 gap-1 flex-col md:flex-row">
           <Input
+            defaultValue={countryName}
             disabled={isLoadingCountries || hasError}
             className="w-full h-12 md:w-[280px]"
             type="text"
             placeholder={COUNTRY_PLACEHOLDER}
             onChange={(e) => {
               const value = e.target.value;
-              setFilter((prev) => {
-                return { ...prev, name: value };
-              });
+              setInputValue(value);
             }}
           />
 
           <CustomSelect
+            defaultValue={countryContinent}
             disabled={isLoadingContinents || hasError}
             placeholder={isLoadingContinents ? LOADING : CONTINENT_PLACEHOLDER}
             selectItems={continents}
             onChange={(value) => {
-              setFilter((prev) => {
-                return { ...prev, continent: value };
-              });
-              getCountries({
-                variables: {
-                  name: { regex: filter.name },
-                  currency: { regex: filter.currency },
-                  continent: { regex: value },
-                },
-              });
+              searchParams.set("continent", value);
+              navigate(`/?${searchParams.toString()}`, { replace: true });
             }}
           />
 
           <CustomSelect
+            defaultValue={countryCurrency}
             disabled={isLoadingCurrencies || hasError}
             placeholder={isLoadingCurrencies ? LOADING : CURRENCY_PLACEHOLDER}
             selectItems={currencies}
             onChange={(value) => {
-              setFilter((prev) => {
-                return { ...prev, currency: value };
-              });
-              getCountries({
-                variables: {
-                  name: { regex: filter.name },
-                  currency: { regex: value },
-                  continent: { regex: filter.continent },
-                },
-              });
+              searchParams.set("currency", value);
+              navigate(`/?${searchParams.toString()}`, { replace: true });
             }}
           />
         </div>

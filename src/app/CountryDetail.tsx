@@ -19,7 +19,7 @@ export default function CountryDetail() {
   if (isLoadingCountry) return <CountryDetaildCardSkeleton />;
 
   const handleBackClick = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   return (
