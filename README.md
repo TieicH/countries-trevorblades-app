@@ -1,30 +1,34 @@
-# React + TypeScript + Vite
+# Country Search App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React and TypeScript project that utilizes the GraphQL API from [https://countries.trevorblades.com/](https://countries.trevorblades.com/).
 
-Currently, two official plugins are available:
+**Project Preview**: [countries-trevorblades-app.vercel.app](https://countries-trevorblades-app.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to Initialize
 
-## Expanding the ESLint configuration
+1. Clone the repository using Git:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+   ```bash
+   git clone https://github.com/TieicH/countries-trevorblades-app.git
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+2. Recommended Node.js version: `20.15.0`
+3. Install dependencies using `pnpm`:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+   ```bash
+    pnpm install
+   ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+4. Create a `.env` file in the root directory with the following content:
+
+   ```bash
+   VITE_GRAPHQL_API_URL=https://countries.trevorblades.com/
+   ```
+
+5. Start the development server:
+
+   ```bash
+   pnpm run dev
+   ```
+
+6. The project will run at `http://localhost:5173/`
