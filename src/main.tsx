@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import "./globals.css";
 
 const client = new ApolloClient({
-  uri: "https://countries.trevorblades.com/",
+  uri: import.meta.env.VITE_GRAPHQL_API_URL,
   cache: new InMemoryCache(),
   connectToDevTools: true,
 });
