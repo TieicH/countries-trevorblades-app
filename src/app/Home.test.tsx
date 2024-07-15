@@ -5,6 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { graphqlMockResponses } from "./mocks";
 
 const mockNavigate = vi.fn();
+const mockLocation = vi.fn();
 
 vi.mock("react-router-dom", async (importOriginal) => {
   const mockedModule = await importOriginal<
@@ -13,6 +14,7 @@ vi.mock("react-router-dom", async (importOriginal) => {
   return {
     ...mockedModule,
     useNavigate: () => mockNavigate,
+    useLocation: () => mockLocation,
   };
 });
 
@@ -72,6 +74,10 @@ describe("Home component", () => {
     expect(option).toBeInTheDocument();
     await user.click(option);
 
+    await act(async () => {
+      await wait(500);
+    });
+
     const items = screen.getAllByRole("listitem");
     expect(items).toHaveLength(2);
   });
@@ -96,6 +102,10 @@ describe("Home component", () => {
     const option = screen.getByRole("option", { name: "CAD" });
     expect(option).toBeInTheDocument();
     await user.click(option);
+
+    await act(async () => {
+      await wait(500);
+    });
 
     const items = screen.getAllByRole("listitem");
     expect(items).toHaveLength(1);

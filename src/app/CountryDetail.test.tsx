@@ -48,7 +48,7 @@ describe("CountryDetail component", () => {
     const backButton = screen.getByRole("button", { name: "Back" });
     backButton.click();
 
-    expect(mockNavigate).toHaveBeenCalledWith("/");
+    expect(mockNavigate).toHaveBeenCalledWith(-1);
   });
   it("should render error message", async () => {
     render(

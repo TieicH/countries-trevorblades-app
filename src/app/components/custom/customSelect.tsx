@@ -5,8 +5,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select";
+import type { SelectProps } from "@radix-ui/react-select";
 
-interface CustomSelectProps {
+interface CustomSelectProps extends SelectProps {
   selectItems: { label: string; value: string }[];
   placeholder: string;
   onChange: (value: string) => void;
@@ -17,10 +18,10 @@ export const CustomSelect = ({
   selectItems,
   placeholder,
   onChange,
-  disabled = false,
+  ...props
 }: CustomSelectProps) => {
   return (
-    <Select onValueChange={onChange} disabled={disabled}>
+    <Select onValueChange={onChange} {...props}>
       <SelectTrigger className="w-full h-12 md:w-[280px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
