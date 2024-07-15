@@ -36,7 +36,6 @@ export const GET_COUNTRY = gql`
       }
       languages {
         name
-        native
       }
       capital
     }

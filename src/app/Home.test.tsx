@@ -1,8 +1,8 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { MockedProvider, wait } from "@apollo/client/testing";
 import Home from "./Home";
 import userEvent from "@testing-library/user-event";
-import { graphqlMocks } from "./mocks";
+import { graphqlMockResponses } from "./mocks";
 
 const mockNavigate = vi.fn();
 
@@ -16,6 +16,10 @@ vi.mock("react-router-dom", async (importOriginal) => {
   };
 });
 
+afterAll(() => {
+  vi.clearAllMocks();
+});
+
 describe("Home component", () => {
   window.HTMLElement.prototype.scrollIntoView = vi.fn();
   window.HTMLElement.prototype.releasePointerCapture = vi.fn();
@@ -23,13 +27,16 @@ describe("Home component", () => {
   it("should render the country search input", async () => {
     const user = userEvent.setup();
     render(
-      <MockedProvider mocks={graphqlMocks} addTypename={false}>
+      <MockedProvider mocks={graphqlMockResponses} addTypename={false}>
         <Home />
       </MockedProvider>
     );
 
     const countryInput = screen.getByPlaceholderText("Select a country");
     expect(countryInput).toBeInTheDocument();
+    await waitFor(() => {
+      expect(countryInput).not.toBeDisabled();
+    });
 
     await user.type(countryInput, "Peru");
 
@@ -47,7 +54,7 @@ describe("Home component", () => {
   it("should render the continent select", async () => {
     const user = userEvent.setup();
     render(
-      <MockedProvider mocks={graphqlMocks} addTypename={false}>
+      <MockedProvider mocks={graphqlMockResponses} addTypename={false}>
         <Home />
       </MockedProvider>
     );
@@ -72,7 +79,7 @@ describe("Home component", () => {
   it("should render the currency select", async () => {
     const user = userEvent.setup();
     render(
-      <MockedProvider mocks={graphqlMocks} addTypename={false}>
+      <MockedProvider mocks={graphqlMockResponses} addTypename={false}>
         <Home />
       </MockedProvider>
     );

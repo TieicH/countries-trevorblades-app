@@ -1,6 +1,6 @@
-import { Skeleton } from "./skeleton";
+import { Skeleton } from "../ui/skeleton";
 
-export const CountrySkeleton = () => {
+export const CountryCardSkeleton = () => {
   return (
     <div
       data-testid="skeleton"

@@ -1,4 +1,4 @@
-import { Continents, Currencies } from "../types";
+import type { Continents, Currencies } from "../types";
 import { EMPTY_PLACEHOLDER_COUNTRY } from "./consts";
 
 export const parsedContinents = (continentsData: Continents | undefined) => {

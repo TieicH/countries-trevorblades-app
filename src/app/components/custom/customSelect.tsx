@@ -10,16 +10,18 @@ interface CustomSelectProps {
   selectItems: { label: string; value: string }[];
   placeholder: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 }
 
 export const CustomSelect = ({
   selectItems,
   placeholder,
   onChange,
+  disabled = false,
 }: CustomSelectProps) => {
   return (
-    <Select onValueChange={onChange}>
-      <SelectTrigger className="w-[280px]">
+    <Select onValueChange={onChange} disabled={disabled}>
+      <SelectTrigger className="w-full h-12 md:w-[280px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

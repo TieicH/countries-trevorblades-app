@@ -1,5 +1,5 @@
 import { EMPTY_PLACEHOLDER } from "@/app/helpers/consts";
-import { Country } from "@/app/types";
+import type { Country } from "@/app/types";
 import { useNavigate } from "react-router-dom";
 
 export interface CountryProps {
