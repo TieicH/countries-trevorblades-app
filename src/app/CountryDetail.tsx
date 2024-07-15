@@ -5,7 +5,7 @@ import type { CountryProps } from "./components/custom/countryCard";
 import { Button } from "./components/ui/button";
 import { CountryDetaildCardSkeleton } from "./components/custom/countryDetailCardSkeleton";
 import { CountryDetailCard } from "./components/custom/countryDetailCard";
-import { ERROR_MESSAGE } from "./helpers/consts";
+import { ERROR_MESSAGE, NOT_COUNTRY_FOUND_MESSAGE } from "./helpers/consts";
 
 export default function CountryDetail() {
   const navigate = useNavigate();
@@ -26,8 +26,10 @@ export default function CountryDetail() {
     <>
       <div className="mt-[4rem] flex items-center justify-start flex-col">
         {isErrorCountry ? <h2>{ERROR_MESSAGE}</h2> : null}
-        {countryData ? (
+        {countryData && countryData.country ? (
           <CountryDetailCard country={countryData.country}></CountryDetailCard>
+        ) : !isErrorCountry ? (
+          <h2>{NOT_COUNTRY_FOUND_MESSAGE(countryCode as string)}</h2>
         ) : null}
         <Button onClick={handleBackClick} className="mt-4">
           Back

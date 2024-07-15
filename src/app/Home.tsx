@@ -14,6 +14,7 @@ import {
   CURRENCY_PLACEHOLDER,
   ERROR_MESSAGE,
   LOADING,
+  NOT_COUNTRIES_FOUND_MESSAGE,
 } from "./helpers/consts";
 import { CountryCard } from "./components/custom/countryCard";
 import { CountryCardSkeleton } from "./components/custom/countryCardSkeleton";
@@ -131,16 +132,15 @@ export default function Home() {
               })
             : null}
           {hasError ? <h2>{ERROR_MESSAGE}</h2> : null}
-          {countriesData && countriesData.countries.length && !hasError
-            ? countriesData.countries.map((country) => {
-                return (
-                  <CountryCard
-                    key={country.code}
-                    country={country}
-                  ></CountryCard>
-                );
-              })
-            : null}
+          {countriesData && countriesData.countries.length && !hasError ? (
+            countriesData.countries.map((country) => {
+              return (
+                <CountryCard key={country.code} country={country}></CountryCard>
+              );
+            })
+          ) : !hasError && !isLoadingCountries ? (
+            <h2>{NOT_COUNTRIES_FOUND_MESSAGE}</h2>
+          ) : null}
         </div>
       </section>
     </main>
