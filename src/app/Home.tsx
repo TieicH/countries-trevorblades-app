@@ -4,7 +4,7 @@ import { CustomSelect } from "./components/custom/customSelect";
 import { Input } from "./components/ui/input";
 import { GET_ALL_CONTINENTS } from "./queries/continents";
 import { GET_ALL_CURRENCIES } from "./queries/currencies";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Continents, Countries, Currencies } from "./types";
 import { parsedContinents, parsedCurrencies } from "./helpers";
 import { useDebounce } from "./hooks";
@@ -17,6 +17,7 @@ import {
 } from "./helpers/consts";
 import { CountryCard } from "./components/custom/countryCard";
 import { CountryCardSkeleton } from "./components/custom/countryCardSkeleton";
+import { Button } from "./components/ui/button";
 
 export interface CountryFilters {
   name: string;
@@ -24,13 +25,16 @@ export interface CountryFilters {
   continent: string;
 }
 
+const INITIAL_FILTERS = {
+  continent: "",
+  currency: "",
+  name: "",
+};
+
 export default function Home() {
-  const [filter, setFilter] = useState<CountryFilters>({
-    continent: "",
-    currency: "",
-    name: "",
-  });
-  const debouncedSearchCountryName = useDebounce(filter.name, 400);
+  const [filter, setFilter] = useState<CountryFilters>(INITIAL_FILTERS);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const debounce = useDebounce(400);
   const [
     getCountries,
     {
@@ -56,12 +60,19 @@ export default function Home() {
   useEffect(() => {
     getCountries({
       variables: {
-        name: { regex: debouncedSearchCountryName },
+        name: { regex: filter.name },
         currency: { regex: filter.currency },
         continent: { regex: filter.continent },
       },
     });
-  }, [debouncedSearchCountryName, filter, getCountries]);
+  }, [filter, getCountries]);
+
+  const handleReset = () => {
+    setFilter(INITIAL_FILTERS);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  };
 
   const hasError = Boolean(
     isErrorContinents || isErrorCurrencies || isErrorCountries
@@ -73,19 +84,23 @@ export default function Home() {
         <h1 className="mx-auto text-4xl font-bold w-fit">Countries app</h1>
         <div className="flex items-center justify-center w-full mt-10 gap-1 flex-col md:flex-row">
           <Input
+            ref={inputRef}
             disabled={isLoadingCountries || hasError}
             className="w-full h-12 md:w-[280px]"
             type="text"
             placeholder={COUNTRY_PLACEHOLDER}
             onChange={(e) => {
-              const value = e.target.value;
-              setFilter((prev) => {
-                return { ...prev, name: value };
+              debounce(() => {
+                const value = e.target.value;
+                setFilter((prev) => {
+                  return { ...prev, name: value };
+                });
               });
             }}
           />
 
           <CustomSelect
+            value={filter.continent}
             disabled={isLoadingContinents || hasError}
             placeholder={isLoadingContinents ? LOADING : CONTINENT_PLACEHOLDER}
             selectItems={continents}
@@ -93,17 +108,11 @@ export default function Home() {
               setFilter((prev) => {
                 return { ...prev, continent: value };
               });
-              getCountries({
-                variables: {
-                  name: { regex: filter.name },
-                  currency: { regex: filter.currency },
-                  continent: { regex: value },
-                },
-              });
             }}
           />
 
           <CustomSelect
+            value={filter.currency}
             disabled={isLoadingCurrencies || hasError}
             placeholder={isLoadingCurrencies ? LOADING : CURRENCY_PLACEHOLDER}
             selectItems={currencies}
@@ -111,18 +120,12 @@ export default function Home() {
               setFilter((prev) => {
                 return { ...prev, currency: value };
               });
-              getCountries({
-                variables: {
-                  name: { regex: filter.name },
-                  currency: { regex: value },
-                  continent: { regex: filter.continent },
-                },
-              });
             }}
           />
+          <Button onClick={handleReset}>Reset</Button>
         </div>
         <div className="flex items-start justify-center gap-4 flex-wrap mt-10 mb-16">
-          {isLoadingCountries && !hasError
+          {isLoadingCountries
             ? Array.from({ length: 10 }).map((_, index) => {
                 return <CountryCardSkeleton key={index}></CountryCardSkeleton>;
               })
