@@ -13,14 +13,15 @@ export const parsedCurrencies = (currenciesData: Currencies | undefined) => {
   if (!currenciesData || !currenciesData?.countries?.length) return [];
   currenciesData.countries.forEach((country) => {
     country.currencies.forEach((currency) => {
-      uniqueCurrencies.add(currency);
+      uniqueCurrencies.add(currency || EMPTY_PLACEHOLDER_COUNTRY);
     });
   });
   const currencies = Array.from(uniqueCurrencies);
-  return currencies.map((currency) => {
+  const sortedCurrencies = currencies.sort((a, b) => a.localeCompare(b));
+  return sortedCurrencies.map((currency) => {
     return {
-      label: currency || EMPTY_PLACEHOLDER_COUNTRY,
-      value: currency || EMPTY_PLACEHOLDER_COUNTRY,
+      label: currency,
+      value: currency,
     };
   });
 };
